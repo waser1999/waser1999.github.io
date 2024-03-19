@@ -4,7 +4,7 @@
 
 # Site
 title: Waser
-subtitle: ''
+subtitle: '首页'
 description: '我的个人博客，分享一些不方便在140字中说的东西。'
 keywords:
 author: Waser
@@ -96,7 +96,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: maple
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
