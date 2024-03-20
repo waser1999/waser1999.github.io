@@ -4,11 +4,11 @@
 
 # Site
 title: Waser
-subtitle: '首页'
-description: '我的个人博客，分享一些不方便在140字中说的东西。'
+subtitle: '我们应当想象自己是幸福的。'
+description: ''
 keywords:
 author: Waser
-language: zh-CN
+language: 'zh-CN'
 timezone: 'Asia/Shanghai'
 
 # URL
@@ -102,3 +102,4 @@ theme: maple
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
+  repo: 

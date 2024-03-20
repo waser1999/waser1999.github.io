@@ -86,3 +86,9 @@ git lfs track "*.svg"
 c. 其余操作与普通git相同。  
 d. `git lfs`不支持GitHub Pages。  
 e. GitHub对普通git的限制：普通git网页上传文件限25M，通过git工具上传限100M。
+
+### 7. 生成SSH密钥（Windows）：
+在终端中输入以下命令， 之后按提示即可：
+```
+ssh-keygen -t rsa
+```
