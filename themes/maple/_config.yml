@@ -1,14 +1,14 @@
 # Header
 nav:
   Posts: /archives
-  # Categories: /category
-  # Tags: /tag
+  Categories: /category
+  Tags: /tag
 
 # favicon
-favicon: /favicon.png
+favicon: /images/portrait.jpeg
 
 # logo
-logo: /images/logo.svg
+logo: /images/portrait.jpeg
 
 # links
 links:
@@ -41,7 +41,7 @@ mermaid:
 
 # giscus
 giscus:
-  enable:
+  enable: true
   repo:
   repo_id:
   category:
