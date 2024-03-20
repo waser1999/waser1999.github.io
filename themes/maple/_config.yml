@@ -1,8 +1,9 @@
 # Header
 nav:
-  Posts: /archives
-  Categories: /category
-  Tags: /tag
+  文章: /archives
+  分类: /categories
+  标签: /tags
+  关于: /about
 
 # favicon
 favicon: /images/portrait.jpeg
@@ -12,10 +13,10 @@ logo: /images/portrait.jpeg
 
 # links
 links:
-  Github: https://github.com/xbmlz
+  Github: https://github.com/waser1999
   # ZhiHu:
   Twitter: https://twitter.com/waser1999
-  Weibo: https://weibo.com/u/7096725137
+  # Weibo: https://weibo.com/u/7096725137
 
 # analytics
 google_analytics:
@@ -31,7 +32,7 @@ mathjax: true
 echarts: true
 
 # busuanzi
-busuanzi: true
+busuanzi: false
 
 # mermaid
 mermaid:
