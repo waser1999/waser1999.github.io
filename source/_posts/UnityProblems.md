@@ -1,5 +1,5 @@
 ---
-title: UnityProblems
+title: Unity的一些问题
 date: 2024-05-09 18:48:08
 tags:
 - unity
@@ -23,7 +23,7 @@ c. Custom Physical Outline决定组件的物理轮廓（如碰撞体）。
 > 有时会遇见即使安装此拓展也无法导入的问题，如遇此问题，请升级组建的版本。
 
 ## 关于Animator与Animation组件的关系
-Animation组件[已经弃用](https://docs.unity.cn/cn/2021.3/Manual/MecanimFAQ.html#:~:text=%E6%8F%90%E4%BE%9B%E6%97%A7%E7%89%88%E5%8A%A8%E7%94%BB%E7%B3%BB%E7%BB%9F%E5%8F%AA%E6%98%AF%E4%B8%BA%E4%BA%86%E5%90%91%E5%90%8E%E5%85%BC%E5%AE%B9%E6%97%A7%E9%A1%B9%E7%9B%AE%EF%BC%8C%E4%B8%8E%E6%88%91%E4%BB%AC%E6%9C%80%E6%96%B0%E7%9A%84%E5%8A%A8%E7%94%BB%E7%B3%BB%E7%BB%9F%E7%9B%B8%E6%AF%94%EF%BC%8C%E5%AE%83%E7%9A%84%E5%8A%9F%E8%83%BD%E9%9D%9E%E5%B8%B8%E6%9C%89%E9%99%90%E3%80%82%E4%BD%BF%E7%94%A8%E5%AE%83%E7%9A%84%E5%94%AF%E4%B8%80%E7%90%86%E7%94%B1%E5%BA%94%E8%AF%A5%E6%98%AF%E4%B8%BA%E4%BA%86%E5%85%BC%E5%AE%B9%E4%BD%BF%E7%94%A8%E6%97%A7%E7%B3%BB%E7%BB%9F%E6%9E%84%E5%BB%BA%E7%9A%84%E6%97%A7%E7%89%88%E9%A1%B9%E7%9B%AE%E3%80%82)，不推荐使用Animation管理动画，除非有兼容性相关的考量。
+Animation组件[已经弃用](https://docs.unity.cn/cn/2021.3/Manual/MecanimFAQ.html#:~:text=%E5%8A%A8%E7%94%BB%20(Animation)%20%E7%BB%84%E4%BB%B6%E5%92%8C%20Animator%20%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E6%9C%89%E4%BD%95%E5%B7%AE%E5%BC%82%EF%BC%9F)，不推荐使用Animation管理动画，除非有兼容性相关的考量。
 
 ## 改变相机背景颜色
 点击Main Camera->Camera组件->环境->背景类型，如图：
@@ -32,3 +32,46 @@ Animation组件[已经弃用](https://docs.unity.cn/cn/2021.3/Manual/MecanimFAQ.
 ## 与IDE的向性
 Unity目前支持Visual Studio、Visual Studio Code和Rider，其中对于前两者的实现均需要安装Visual Studio Editor（注意，VS Code也是一样，之前专供VS Code的Unity拓展[已被弃用](https://marketplace.visualstudio.com/items?itemName=VisualStudioToolsForUnity.vstuc#:~:text=Note%3A%20the%20Visual%20Studio%20Code%20Editor%20package%20is%20a%20legacy%20package%20from%20Unity%20that%20is%20not%20maintained%20anymore.)，而VS、VS Code方面只需要安装Unity相关拓展或环境即可。  
 如果VS Code未能识别，则可能需要手动将其导入，并最好点一下`Regenerate Project Files`，尤其是项目中没有`.sln`文件时。
+
+## Unity消息系统
+SendMessage目前 [不推荐使用](https://docs.unity.cn/cn/2022.3/Manual/MessagingSystem.html#:~:text=%E6%96%B0%E7%9A%84%20UI%20%E7%B3%BB%E7%BB%9F%E4%BD%BF%E7%94%A8%E4%B8%80%E7%A7%8D%E6%B6%88%E6%81%AF%E7%B3%BB%E7%BB%9F%E6%9D%A5%E5%8F%96%E4%BB%A3%20SendMessage%E3%80%82)。一般采用新的，基于接口定义的方法在不同组件中传递消息。  
+如果希望传递自定义消息，首先需要定义一个继承自`IEventSystemHandler`的接口，如下：
+```
+public interface ICustomMessageTarget : IEventSystemHandler
+{
+    // 可通过消息系统调用的函数
+    void Message1();
+    void Message2();
+} 
+```
+之后，需要在`MonoBehaviour`（GameObject）中继承并实现此接口。如下：
+> 不需要新建一个函数，只需要在脚本创建的那个类中加入`ICustomMessageTarget`即可。
+```
+public class CustomMessageTarget : MonoBehaviour, ICustomMessageTarget
+{
+    void Start()
+    {
+        ……
+    }
+
+    void Update()
+    {
+        ……
+    }
+
+    public void Message1()
+    {
+        Debug.Log ("Message 1 received");
+    }
+
+    public void Message2()
+    {
+        Debug.Log ("Message 2 received");
+    }
+}
+```
+调用此接口实现的方法时，需要使用`ExecuteEvents.Execute`方法。以下是一个例子：
+```
+ExecuteEvents.Execute<ICustomMessageTarget>(target, data, (handler, data) => handler.Message1());
+```
+其中，`ICustomMessageTarget`表示实现了该名称的接口的所有对象，`target`指脚本所在的目标对象，`data`指接口方法中所需要的数据，而最后一个参数是一个用lambda表达式书写的委托，`handler`代表当前的对象，而后面的`data`代表输入的数值。
