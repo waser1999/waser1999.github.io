@@ -93,3 +93,8 @@ e. GitHub对普通git的限制：普通git网页上传文件限25M，通过git�
 ```
 ssh-keygen -t rsa
 ```
+
+### 8. 更新git版本（windows）：  
+```
+git update-git-for-windows
+```
